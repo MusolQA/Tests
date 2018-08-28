@@ -1,6 +1,7 @@
 package mainPageTest;
 
 
+import com.beust.jcommander.converters.PathConverter;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import static org.testng.Assert.assertEquals;
@@ -276,29 +278,23 @@ public class CastoramaDesktopTests {
       //  WebElement currentPackageSize = driver.findElement(By.cssSelector("div.input-wrapper-product-sidebar > input#productUnitsSecond")).getAttribute();
        // System.out.println(currentPackageSize);
     }
-
-
-
-
-    @AfterMethod(alwaysRun = true)
-
-
-    public void catchExceptions(ITestResult result) {
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy|MM|dd HH:mm:ss");
-        Date date = new Date();
-        String screenDate = dateFormat.format(date);
+    @AfterMethod(alwaysRun=true)
+    public void catchExceptions(ITestResult result){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
         String methodName = result.getName();
-        if (!result.isSuccess()) {
-            System.out.println("TEST FAILURE - SCREENSHOT DONE!!!");
-            File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        if(!result.isSuccess()){
+            File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
             try {
-                FileUtils.copyFile(scrFile, new File(("failure_screenshots/" + methodName + " " + screenDate + ".png")));
+                FileUtils.copyFile(scrFile, new File(("failure_screenshots/"+methodName+"_"+formater.format(calendar.getTime())+".png")));
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
         }
     }
+
+
+
 
     @AfterMethod
 
@@ -306,6 +302,8 @@ public class CastoramaDesktopTests {
 
         driver.close();
     }
+
+
 
 }
 
