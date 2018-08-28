@@ -28,15 +28,15 @@ public class CastoramaDesktopTests {
 
 
 
-    WebDriver driver = new ChromeDriver();
+    public static WebDriver driver = new ChromeDriver();
 
 
 
-    @BeforeMethod
+    @BeforeTest
 
     public void beforeEachTest() {
 
-
+      //  WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("http://www.castorama.pl");
         System.setProperty("webdriver.chrome.driver", "chromedriver");
@@ -131,7 +131,8 @@ public class CastoramaDesktopTests {
                 boolean elementPresent = driver.findElement(By.cssSelector("div.help-header.bold-lazy-load_background-wrapper > div.bold-lazy-load > img")).isDisplayed();
                 Assert.assertTrue(elementPresent);
             }
-
+            else
+                System.out.println("No nav links presented!");
         }
 
     }
